@@ -28,5 +28,7 @@ describe("testing button",()=>{
     
         expect(handleClick).toHaveBeenCalledTimes(1);
       });
-
+      it("sample", () => {
+        expect("2").to.equal("2");
+      });
 })
