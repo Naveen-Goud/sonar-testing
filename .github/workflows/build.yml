@@ -18,7 +18,7 @@ jobs:
     timeout-minutes: 10 # Give the value at most 8 mins.
     defaults:
       run:
-        working-directory: app/client # Change the working directory to your frontend folder name.
+        working-directory: frontend/src # Change the working directory to your frontend folder name.
     steps:
       - uses: actions/checkout@v4
         with:
