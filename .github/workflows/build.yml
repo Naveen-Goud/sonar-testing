@@ -1,9 +1,9 @@
 name: SonarCloud Frontend
 on:
   push:
-    branches: ["main"] # change it to your main branch.
+    branches: ["main"]
     paths:
-      - "frontend/src/**" # give the frontend folder name.
+      - "frontend/src/**"
   pull_request:
     branches: ["main"]
     types: [opened, synchronize, reopened]
@@ -13,30 +13,27 @@ jobs:
     if: ( startsWith(github.head_ref, 'FE_') && github.event.pull_request.merged == false ) || ( github.event_name == 'push' )
     name: FE Sonar Analysis
     runs-on: ubuntu-latest
-    timeout-minutes: 10 # Give the value at most 8 mins.
+    timeout-minutes: 10
     defaults:
       run:
-        working-directory: frontend/src # Change the working directory to your frontend folder name.
+        working-directory: frontend/src
     steps:
-     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '14.x' # Specify your desired Node.js version
       - name: Install Dependencies
         run: npm install --legacy-peer-deps
       - name: Test and coverage
         run: npm test -- --watchAll=false --coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      SONAR_PULLREQUEST_BASE: ${{ github.base_ref }}
-          #add sonar pullrequest branch vairable
-      SONAR_PULLREQUEST_BRANCH: ${{ github.head_ref }}
-          #add sonar pullrequest key vairable
-      SONAR_PULLREQUEST_KEY: ${{ github.event.pull_request.number }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PULLREQUEST_BASE: ${{ github.base_ref }}
+          SONAR_PULLREQUEST_BRANCH: ${{ github.head_ref }}
+          SONAR_PULLREQUEST_KEY: ${{ github.event.pull_request.number }}
