@@ -1,13 +1,11 @@
 name: SonarCloud Frontend
 on:
   push:
-    branches:
-      - main # change it to your main branch.
+    branches: ["main"] # change it to your main branch.
     paths:
       - "frontend/src/**" # give the frontend folder name.
   pull_request:
-    branches:
-      - main
+    branches: ["main"]
     types: [opened, synchronize, reopened]
 
 jobs:
@@ -21,7 +19,7 @@ jobs:
         working-directory: frontend/src # Change the working directory to your frontend folder name.
     steps:
      steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
